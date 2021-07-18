@@ -1,0 +1,30 @@
+# to avoid leaking credentials to github:
+sqldatabasename
+sqlpassword
+sqlserver
+sqlusername
+secrets/
+docker-compose.yml
+
+# to avoid leaking references to github:
+references
+references/
+
+# general things to ignore
+build/
+dist/
+*.egg-info/
+*.egg
+*.py[cod]
+__pycache__/
+*.so
+*~
+
+# due to using tox, pytest, vscode
+.tox
+.cache
+.eggs/
+.vscode/
+
+# due to Mac:
+**/.DS_Store
