@@ -46,9 +46,9 @@ This will start WebRef on your local machine which is nice for testing.
 To get the most out of WebRef, you will probably want to
 run this docker image on a web server.
 
-As you have not created any users yet, you will be unable to login. To create
+As we have not created any users yet, we can't login. To create
 users, open your JabRef database (the one named in ./secrets/sqldatabasename)
-and run this sql code (make sure, you don't have a table with this name
+and run this sql-code (make sure you don't have a table with this name
 already):
 
 ```
@@ -61,8 +61,8 @@ create table user (
 )
 ```
 
-Now you have a user table but no users in it, yet. Invent a password and hash
-it with the following python code (of course, replace the dummy password
+Now we have a user table but no users in it, yet. Let's find a password and hash
+it with the following python code (of course, we replace the dummy password
 with your own password beforehand):
 
 ```
@@ -93,4 +93,4 @@ values (
 );
 ```
 
-Now you should be ready to go.
+Now we are ready to go.
