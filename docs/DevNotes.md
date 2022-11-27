@@ -12,6 +12,39 @@
 
 ## Deployment to a Synology NAS
 
+Build docker image:
+
+```
+docker build -t webref:0.x .
+```
+
+Then, save this image into a tar-ball:
+
+```
+docker save webref:0.x | gzip > webref-0.x.tar.gz
+```
+
+Copy this to your NAS where you run:
+
+```
+docker load < webref-0.x.tar.gz
+```
+
+Stop your existing webref container and delete it using the commands:
+
+```
+docker container ls
+docker container stop <hexcode>
+docker container rm <hexcode>
+```
+
+Go into your directory with your docker-compose.yml and run (maybe after
+changing the version number inside docker-compose.yml):
+
+```
+docker-compose up --detach
+```
+
 We want https://www.ourdomain.com/references to be handled by the webref
 docker container => need reverse proxy. Synology's webinterface is not
 flexible enough: It can't redirect a subdirectory to a separate webserver.
