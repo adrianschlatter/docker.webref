@@ -42,7 +42,55 @@ Steps:
 * Point your webbrowser to localhost:7000 (or where you configured your
   WebRef to be)
 
-
 This will start WebRef on your local machine which is nice for testing.
 To get the most out of WebRef, you will probably want to
 run this docker image on a web server.
+
+As you have not created any users yet, you will be unable to login. To create
+users, open your JabRef database (the one named in ./secrets/sqldatabasename)
+and run this sql code (make sure, you don't have a table with this name
+already):
+
+```
+create table user (
+	id INT auto_increment,
+	username varchar(20) character set utf8 not null,
+	password char(80) character set ascii not null,
+	primary key (id),
+	unique(username)
+)
+```
+
+Now you have a user table but no users in it, yet. Invent a password and hash
+it with the following python code (of course, replace the dummy password
+with your own password beforehand):
+
+```
+import bcrypt
+
+password = 'This is my password'
+
+bytes = password.encode('utf-8')
+salt = bcrypt.gensalt()
+print(bcrypt.hashpw(bytes, salt))
+```
+
+The output looks something like this:
+
+```
+b'$2b$12$1royHRBq6o/mbDdO7LjR8eaThWYErI6HLLdn7MBfajtpRLlwWSJ8m'
+```
+
+Now add your user to the user table in you JabRef database using this sql-code
+(again, replace "webref" with your username and the password hash with the
+hash you generated above):
+
+```
+insert into user (username, password)
+values (
+	"webref",
+	"$2b$12$1royHRBq6o/mbDdO7LjR8eaThWYErI6HLLdn7MBfajtpRLlwWSJ8m"
+);
+```
+
+Now you should be ready to go.

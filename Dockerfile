@@ -3,7 +3,10 @@ RUN apt update
 RUN apt install -y python3
 RUN apt install -y python3-pip
 RUN apt install -y libapache2-mod-wsgi-py3
-RUN pip3 install flask-sqlalchemy
+RUN pip3 install 'flask-sqlalchemy<3'
+RUN pip3 install flask_login
+RUN pip3 install flask_wtf
+RUN pip3 install flask_bcrypt
 RUN pip3 install pymysql
 RUN pip3 install ppf.jabref==0.1.0
 RUN mkdir /var/run/apache2      # needed to store files for WSGI
