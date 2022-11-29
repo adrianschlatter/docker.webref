@@ -18,6 +18,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
+from flask_talisman import Talisman
 from ppf.jabref import Entry, Field, split_by_unescaped_sep
 from pathlib import Path
 
@@ -44,6 +45,15 @@ sqldatabasename = open(secrets_path / 'sqldatabasename').readline().strip()
 app = Flask(__name__,
             static_url_path='',
             static_folder='static')
+
+csp = {'default-src': "'none'",
+       'script-src': "'self' https://code.jquery.com https://cdnjs.cloudflare.com",
+       'form-action': "'self'",
+       'connect-src': "'self'",
+       'style-src': "'self'",
+       'base-uri': "'none'",
+       'frame-ancestors': "'none'"}
+Talisman(app, content_security_policy=csp, force_https=False)
 app.config['SQLALCHEMY_DATABASE_URI'] = ('mysql+pymysql://'
                                          f'{sqlusername}:{sqlpassword}'
                                          f'@{sqlserver}/{sqldatabasename}')

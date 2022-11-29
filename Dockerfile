@@ -7,6 +7,7 @@ RUN pip3 install 'flask-sqlalchemy<3'
 RUN pip3 install flask_login
 RUN pip3 install flask_wtf
 RUN pip3 install flask_bcrypt
+RUN pip3 install flask_talisman
 RUN pip3 install pymysql
 RUN pip3 install ppf.jabref==0.1.0
 RUN mkdir /var/run/apache2      # needed to store files for WSGI
