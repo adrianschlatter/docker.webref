@@ -2,7 +2,7 @@
 
 ## Docker Lessons
 
-* Webserver must listen on 0.0.0.0:80: Docker port mapping does not work
+* Web server must listen on 0.0.0.0:80: Docker port mapping does not work
   otherwise (127.0.0.1:80 is not enough).
 * Running apache in the foreground (as it's usually done inside a docker
   container) has unexpected consequences: Apache reacts to SIGWINCH
@@ -45,23 +45,38 @@ changing the version number inside docker-compose.yml):
 docker-compose up --detach
 ```
 
-We want https://www.ourdomain.com/references to be handled by the webref
-docker container => need reverse proxy. Synology's webinterface is not
-flexible enough: It can't redirect a subdirectory to a separate webserver.
-It is still possible, however, but you have to go via a terminal:
-[This article](https://primalcortex.wordpress.com/2018/05/07/synology-reverse-proxy-revisited-again/?unapproved=18819&moderation-hash=e368f1dda03465bca9880d8de938786a#comment-18819) is 
-useful. The config we put in '/etc/nginx/conf.d/www.webref.conf' is:
+We want https://webref.ourdomain.com to be handled by the webref
+docker container => need reverse proxy. Also, we want Synology to handle
+https certificates. I.e., we want the traffic decrypted before it reaches
+our docker container. Synology's web interface is not
+flexible enough to do this properly. It is still possible, however,
+but we have to use a terminal:
+[This article](https://primalcortex.wordpress.com/2018/05/07/synology-reverse-proxy-revisited-again/?unapproved=18819&moderation-hash=e368f1dda03465bca9880d8de938786a#comment-18819)
+is useful. The config we put in '/etc/nginx/conf.d/server.webref.conf' is:
 
 ```
-location ^~ /references/ {
-	proxy_pass http://127.0.0.1:7000/;
+server {
+    listen 80;
+    server_name webref.ourdomain.com;
+
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name webref.ourdomain.com;
+
+    add_header Strict-Transport-Security "max-age=15768000; includeSubdomains; preload" always;
+
+    location / {
+        proxy_pass http://localhost:7000;
+    }
 }
 ```
 
 This assumes your webref container has mapped internal port 80 to host port
-7000. Make sure you do not forget the slash ("/") in ":7000/". If you 
-don't put it there, https://www.ourdomain.com/references maps to
-http://127.0.0.1:7000/references instead of http://127.0.0.1:7000/. 
+7000. Also, it assumes that the NAS's https certificate is valid for
+webref.ourdomain.com (listed as "Subject alternative name:").
 
 Make sure to run
 
