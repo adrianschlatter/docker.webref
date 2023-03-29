@@ -13,10 +13,10 @@ from flask import url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 # from flask_sqlalchemy import sqlalchemy as sa
 from flask_login import UserMixin, login_user, LoginManager
-from flask_login import login_required, logout_user, current_user
+from flask_login import login_required, logout_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import InputRequired, Length, ValidationError
+from wtforms.validators import InputRequired, Length
 from flask_bcrypt import Bcrypt
 from flask_talisman import Talisman
 from ppf.jabref import Entry, Field, split_by_unescaped_sep
@@ -47,7 +47,8 @@ app = Flask(__name__,
             static_folder='static')
 
 csp = {'default-src': "'none'",
-       'script-src': "'self' https://code.jquery.com https://cdnjs.cloudflare.com",
+       'script-src':
+           "'self' https://code.jquery.com https://cdnjs.cloudflare.com",
        'form-action': "'self'",
        'connect-src': "'self'",
        'style-src': "'self'",
@@ -59,16 +60,17 @@ app.config['SQLALCHEMY_DATABASE_URI'] = ('mysql+pymysql://'
                                          f'@{sqlserver}/{sqldatabasename}')
 app.config['SECRET_KEY'] = '1YIYlxhBX6@el*ae'
 db = SQLAlchemy(app)
-sa = db
 bcrypt = Bcrypt(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -82,7 +84,7 @@ class LoginForm(FlaskForm):
     password = PasswordField(validators=[InputRequired(), Length(min=4)],
                              render_kw={"placeholder": "Password"})
     submit = SubmitField("Login")
-    
+
 
 @app.route('/')
 @login_required
@@ -104,6 +106,7 @@ def login():
 
     return render_template('login.php', form=form)
 
+
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
@@ -124,10 +127,10 @@ def loadEntries():
     """Return entries from library matching search expression."""
     searchexpr = request.form.get('searchexpr')
 
-    patternmatchingQ = (sa.select(Field.entry_shared_id)
+    patternmatchingQ = (db.select(Field.entry_shared_id)
                         .where(Field.value.op('rlike')(searchexpr))
                         .distinct())
-    entryQ = (sa.select(Entry)
+    entryQ = (db.select(Entry)
               .where(Entry.shared_id.in_(patternmatchingQ)))
 
     entries = [{f: entry[0].fields.get(f, None)
