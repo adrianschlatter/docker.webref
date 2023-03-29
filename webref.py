@@ -11,7 +11,7 @@ existing entries or to add new ones.
 from flask import Flask, render_template, request, send_from_directory
 from flask import url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
-from flask_sqlalchemy import sqlalchemy as sa
+# from flask_sqlalchemy import sqlalchemy as sa
 from flask_login import UserMixin, login_user, LoginManager
 from flask_login import login_required, logout_user, current_user
 from flask_wtf import FlaskForm
@@ -59,6 +59,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = ('mysql+pymysql://'
                                          f'@{sqlserver}/{sqldatabasename}')
 app.config['SECRET_KEY'] = '1YIYlxhBX6@el*ae'
 db = SQLAlchemy(app)
+sa = db
 bcrypt = Bcrypt(app)
 
 login_manager = LoginManager()
