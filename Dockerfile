@@ -14,6 +14,6 @@ RUN apt update
 RUN apt install -y python3
 RUN apt install -y python3-pip
 RUN apt install -y libapache2-mod-wsgi-py3
-RUN pip3 install -r requirements.txt
+RUN pip3 install -r requirements.txt --break-system-packages
 
 CMD ["/usr/local/apache2/bin/httpd", "-D", "FOREGROUND"]
