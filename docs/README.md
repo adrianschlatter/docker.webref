@@ -1,4 +1,4 @@
-# WebRef
+# docker.webref
 
 WebRef is a web interface to a [JabRef SQL database](https://docs.jabref.org/collaborative-work/sqldatabase).
 It allows you to access your references from anywhere in the world and from

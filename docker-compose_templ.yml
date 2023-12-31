@@ -1,17 +1,19 @@
 services:
     webref:
-        image: webref
-        build: .
+        image: webref:0.1
         ports:
-            - "7000:80"
+            - "7000:8080"
         volumes:
-            - <path to JabRef's General File Directory>:/webapp/references
+            - <path to refs>:/usr/local/lib/python3.11/site-packages/ppf/webref/references
         secrets:
+            - secret_key
             - sqlusername
             - sqlpassword
             - sqlserver
             - sqldatabasename
 secrets:
+    secret_key:
+        file: ./secrets/secret_key
     sqlusername:
         file: ./secrets/sqlusername
     sqlpassword:
