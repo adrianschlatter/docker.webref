@@ -1,0 +1,14 @@
+name: Docker Image CI
+
+on:
+  pull_request:
+  workflow_dispatch:  # you can trigger this workflow manually
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: make

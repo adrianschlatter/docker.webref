@@ -1,0 +1,24 @@
+services:
+    webref:
+        image: webref:${VERSION}
+        ports:
+            - "7000:8080"
+        volumes:
+            - <path to refs>:/usr/local/lib/python3.11/site-packages/ppf/webref/references
+        secrets:
+            - secret_key
+            - sqlusername
+            - sqlpassword
+            - sqlserver
+            - sqldatabasename
+secrets:
+    secret_key:
+        file: ./secrets/secret_key
+    sqlusername:
+        file: ./secrets/sqlusername
+    sqlpassword:
+        file: ./secrets/sqlpassword
+    sqlserver:
+        file: ./secrets/sqlserver
+    sqldatabasename:
+        file: ./secrets/sqldatabasename
