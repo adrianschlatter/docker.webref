@@ -1,4 +1,5 @@
 # to avoid leaking credentials to github:
+secret_key
 sqldatabasename
 sqlpassword
 sqlserver
