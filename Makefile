@@ -8,5 +8,5 @@ up: webref-$(VERSION).tar.gz
 	VERSION=$(VERSION) docker compose up --detach
 
 clean:
-	VERSION=$(VERSION) docker-compose down --rmi all --volumes --remove-orphans
+	VERSION=$(VERSION) docker compose down --rmi all --volumes --remove-orphans
 	rm -f webref-$(VERSION).tar.gz
