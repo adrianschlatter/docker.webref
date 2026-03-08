@@ -111,4 +111,5 @@ everyone to adhere to it, just make sure you do as well.
 
 # Changelog
 
-* 0.1: Dockerizes `ppf.webref-0.1.1`.
+* 0.2.0:    Dockerizes `ppf.webref-0.2.0`
+* 0.1:      Dockerizes `ppf.webref-0.1.1`.
