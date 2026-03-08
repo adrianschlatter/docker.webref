@@ -1,4 +1,4 @@
-VERSION := 0.2.0
+VERSION := 0.2.1
 
 webref-$(VERSION).tar.gz: Dockerfile config/requirements.txt Makefile
 	docker build -t webref:$(VERSION) .
