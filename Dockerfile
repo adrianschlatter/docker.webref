@@ -12,7 +12,7 @@ RUN chown -R webref:webref .
 # install web app and wsgi server:
 USER root
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache ppf.webref==0.1.1
+RUN pip install --no-cache ppf.webref==0.2.0
 
 # run wsgi server:
 USER webref
