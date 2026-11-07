@@ -18,5 +18,5 @@ PyMySQL==1.1.2
 SQLAlchemy==2.0.24
 typing_extensions==4.9.0
 waitress==3.0.2
-Werkzeug==3.1.6
+Werkzeug==3.1.9
 WTForms==3.1.1
